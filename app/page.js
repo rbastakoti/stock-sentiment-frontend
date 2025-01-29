@@ -19,16 +19,14 @@ const MainPage = () => {
         {showChart ? 'Hide Live Chart' : 'Go to Live Chart'}
       </button>
 
-      <div className="flex space-x-6 justify-center mt-6">
-        {/* Conditionally render StockLiveChart */}
+      <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 justify-center mt-6">
         {showChart && (
-          <div className="flex-1">
+          <div className="w-full md:w-1/2">
             <StockLiveChart />
           </div>
         )}
 
-        {/* ChatBox Component */}
-        <div className="flex-2">
+        <div className="w-full md:w-1/2">
           <ChatBox />
         </div>
       </div>
