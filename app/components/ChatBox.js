@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const ChatBox = () => {
@@ -12,6 +12,34 @@ const ChatBox = () => {
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
+  const [userHasInteracted, setUserHasInteracted] = useState(false);
+
+  const playBotSound = () => {
+    const audio = new Audio('/782969__qubodup__minimal-phone-notification-sound.wav');
+    audio.play().catch((err) => console.error('Error playing sound:', err));
+  };
+
+  useEffect(() => {
+    const faqTimer = setTimeout(() => {
+      if (!userHasInteracted) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            type: 'bot',
+            text: `🤔 If you're unsure what to ask, here are some common questions:
+                  - "What is the latest sentiment on NVIDIA?"
+                  - "How do people feel about Amazon stock?"
+                  - "Is Meta a good investment based on sentiment?"
+                      
+                  Just type your question and I'll analyze it for you! 📈`,
+          },
+        ]);
+        playBotSound()
+      }
+    }, 30000);
+
+    return () => clearTimeout(faqTimer);
+  }, [userHasInteracted]);
 
   const handleSendMessage = async () => {
     if (!message.trim()) return;
@@ -29,12 +57,15 @@ const ChatBox = () => {
       const sentiment = response.data.response || 'Sorry, I couldn’t find an answer for that.';
 
       setMessages((prevMessages) => [...prevMessages, { type: 'bot', text: sentiment }]);
+      playBotSound()
+
     } catch (error) {
       console.error('Error fetching sentiment:', error);
       setMessages((prevMessages) => [
         ...prevMessages,
         { type: 'bot', text: 'Sorry, there was an error processing your request.' },
       ]);
+      playBotSound()
     } finally {
       setIsLoading(false);
     }

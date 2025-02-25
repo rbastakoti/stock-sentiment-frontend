@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import StockLiveChart from '../components/StockLiveChart';
 import ChatBox from '../components/ChatBox';
+import SentimentGraph from "../components/SentimentGraph";
 import { motion } from 'framer-motion';
 
 const Dashboard = () => {
@@ -29,6 +30,15 @@ const Dashboard = () => {
         Monitor live stock prices and real-time sentiment analysis powered by AI.
       </motion.p>
 
+      <motion.div 
+        className="w-full flex justify-center mt-7 mb-14 py-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8, duration: 1 }}
+      >
+        <SentimentGraph />
+      </motion.div>
+
       {/* Toggle Button */}
       <motion.button
         onClick={() => setShowChart(!showChart)}
@@ -39,6 +49,8 @@ const Dashboard = () => {
       >
         {showChart ? 'Hide Live Chart' : 'Show Live Chart'}
       </motion.button>
+
+
 
       {/* Dashboard Layout */}
       <motion.div 
