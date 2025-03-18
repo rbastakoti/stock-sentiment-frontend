@@ -107,6 +107,11 @@ const ChatBox = () => {
           placeholder="Type your message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !isLoading) {
+              handleSendMessage();
+            }
+          }}
           disabled={isLoading}
         />
         <button
